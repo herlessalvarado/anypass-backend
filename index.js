@@ -11,7 +11,6 @@ mongoose.connect(process.env.MONGODB_URL, {
 });
 
 const app = express();
-const port = 8000;
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -19,4 +18,4 @@ app.use(bodyParser.json());
 
 authRoutes(app);
 
-app.listen(port);
+app.listen(process.env.PORT);
