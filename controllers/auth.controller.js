@@ -71,9 +71,13 @@ const signin = async (req, res) => {
         message: "Invalid Password!",
       });
     }
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: 86400,
-    });
+    const token = jwt.sign(
+      { id: user.id, email: user.email, colorCode: colorCode },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: 86400,
+      }
+    );
 
     return res.status(200).send({
       id: user.id,
