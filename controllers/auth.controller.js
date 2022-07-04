@@ -75,14 +75,7 @@ const signin = async (req, res) => {
       { id: user.id, email: user.email, colorCode: colorCode },
       process.env.JWT_SECRET,
       {
-        expiresIn: 86400,
-      }
-    );
-
-    const credentialsApplicationsName = Object.values(user.credentials).map(
-      (credential) => {
-        const c = Object.keys(credential)[0];
-        return c;
+        expiresIn: 300,
       }
     );
 
@@ -90,7 +83,6 @@ const signin = async (req, res) => {
       id: user.id,
       email: user.email,
       token: token,
-      applicationNames: credentialsApplicationsName,
     });
   } catch (error) {
     return res.status(500).send({ message: error.message });
