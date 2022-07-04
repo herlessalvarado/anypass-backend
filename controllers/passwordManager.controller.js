@@ -1,6 +1,33 @@
 import User from "../models/user.model.js";
 import { createHash, createCipheriv, createDecipheriv } from "node:crypto";
 
+const getApplications = async (req, res) => {
+  try {
+    const email = req.email;
+
+    const user = await User.findOne({
+      email: email,
+    });
+
+    if (!user) {
+      return res.status(404).send({ message: "User Not found." });
+    }
+
+    const credentialsApplicationsName = Object.values(user.credentials).map(
+      (credential) => {
+        const c = Object.keys(credential)[0];
+        return c;
+      }
+    );
+
+    return res.status(200).send({
+      applicationNames: credentialsApplicationsName,
+    });
+  } catch (error) {
+    return res.status(500).send({ message: error.message });
+  }
+};
+
 const encryptCredentials = async (req, res) => {
   try {
     const application = req.body.application;
@@ -106,6 +133,7 @@ const decryptCredentials = async (req, res) => {
 };
 
 const passwordManagerController = {
+  getApplications,
   encryptCredentials,
   decryptCredentials,
 };
