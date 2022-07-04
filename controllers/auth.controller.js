@@ -79,10 +79,18 @@ const signin = async (req, res) => {
       }
     );
 
+    const credentialsApplicationsName = Object.values(user.credentials).map(
+      (credential) => {
+        const c = Object.keys(credential)[0];
+        return c;
+      }
+    );
+
     return res.status(200).send({
       id: user.id,
       email: user.email,
       token: token,
+      applicationNames: credentialsApplicationsName,
     });
   } catch (error) {
     return res.status(500).send({ message: error.message });
